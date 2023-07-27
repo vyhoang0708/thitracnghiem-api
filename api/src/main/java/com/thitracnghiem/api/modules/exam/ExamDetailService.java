@@ -1,4 +1,4 @@
-package com.thitracnghiem.api.modules.Exam;
+package com.thitracnghiem.api.modules.exam;
 
 import com.thitracnghiem.api.base.CRUDBaseServiceImpl;
 import com.thitracnghiem.api.entities.exam.entities.ExamDetail;
@@ -24,4 +24,5 @@ public class ExamDetailService extends CRUDBaseServiceImpl<ExamDetail,ExamDetail
     public Iterable<ExamDetail> getAllExamDetailByExam(Long id) {
         return examDetailRepository.findAllByExam_IdDT(id);
     }
+
 }

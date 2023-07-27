@@ -1,9 +1,11 @@
-package com.thitracnghiem.api.modules.Exam;
+package com.thitracnghiem.api.modules.exam;
 
 import com.thitracnghiem.api.base.CRUDBaseServiceImpl;
 import com.thitracnghiem.api.entities.exam.entities.Exam;
+import com.thitracnghiem.api.entities.exam.entities.ExamDetail;
+import com.thitracnghiem.api.entities.exam.repos.ExamDetailRepository;
 import com.thitracnghiem.api.entities.exam.repos.ExamRepository;
-import com.thitracnghiem.api.entities.question.repos.QuestionRepository;
+import com.thitracnghiem.api.entities.test.repos.TestRepository;
 import com.thitracnghiem.api.payload.request.exam.ExamRequest;
 import com.thitracnghiem.api.payload.response.exam.ExamResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -33,7 +36,9 @@ public class ExamService extends CRUDBaseServiceImpl<Exam, ExamRequest, Exam, Lo
     private Resource jwkFile;
 
     @Autowired
-    QuestionRepository questionRepository;
+    TestRepository testRepository;
+    @Autowired
+    ExamDetailRepository examDetailRepository;
 
     public ExamResponse createExam(ExamRequest examRequest) throws IOException {
         Date date = new Date(Instant.now().plusSeconds(expireIn).toEpochMilli());
@@ -60,5 +65,24 @@ public class ExamService extends CRUDBaseServiceImpl<Exam, ExamRequest, Exam, Lo
             return ExamResponse.builder().message("Update Exam Successful").status(true).exam(exam.get()).build();
         }else
             return ExamResponse.builder().message("không tìm thấy đề thi").status(false).exam(exam.get()).build();
+    }
+    public ExamResponse deleteExam(Long id){
+        Optional<Exam> exam = examRepository.findById(id);
+        if (exam.isPresent()){
+            if(testRepository.findByExam_idDT(exam.get().getIdDT()).isPresent()){
+                return ExamResponse.builder().status(false).message("Đã có User làm bài thi, không thể xóa").exam(null).build();
+            }
+            try {
+                Iterable<ExamDetail> examDetails = examDetailRepository.findAllByExam_IdDT(id);
+                for (ExamDetail examDetail : examDetails){
+                    examDetailRepository.delete(examDetail);
+                }
+            }catch (Exception e) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            }
+            examRepository.delete(exam.get());
+        }else
+            return ExamResponse.builder().status(false).message("Đề thi không tồn tại").exam(null).build();
+        return null;
     }
 }

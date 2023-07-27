@@ -81,7 +81,7 @@ public class QuestionService extends CRUDBaseServiceImpl<Question, QuestionReque
     public Iterable<Question> getQuestionByCategory(long id){
         return questionRepository.findAllSortCategory(id);
     }
-
+    @Transactional
     public QuestionResponse updateQuestion(Long idQuestion, QuestionRequestUpdate questionRequest) throws IOException{
         String message = "";
         Optional<Question> question = questionRepository.findById(idQuestion);

@@ -22,7 +22,7 @@ public class Test {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idDT")
-    private com.thitracnghiem.api.entities.exam.entities.Exam Exam;
+    private Exam exam;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idUser")

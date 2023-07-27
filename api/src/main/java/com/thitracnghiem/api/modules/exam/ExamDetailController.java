@@ -1,4 +1,4 @@
-package com.thitracnghiem.api.modules.Exam;
+package com.thitracnghiem.api.modules.exam;
 
 import com.thitracnghiem.api.entities.exam.entities.ExamDetail;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

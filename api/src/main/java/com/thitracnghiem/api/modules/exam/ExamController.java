@@ -1,7 +1,6 @@
-package com.thitracnghiem.api.modules.Exam;
+package com.thitracnghiem.api.modules.exam;
 
 import com.thitracnghiem.api.entities.exam.entities.Exam;
-import com.thitracnghiem.api.entities.question.entities.Question;
 import com.thitracnghiem.api.payload.request.exam.ExamRequest;
 import com.thitracnghiem.api.payload.response.exam.ExamResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -39,5 +38,8 @@ public class ExamController {
                                          @PathVariable Long id) throws IOException{
         return Mono.just(examService.updateExam(id,examRequest));
     }
-
+    @DeleteMapping("/delete/{id}")
+    public Mono<ExamResponse> deleteExam(@PathVariable Long id){
+        return Mono.just(examService.deleteExam(id));
+    }
 }
