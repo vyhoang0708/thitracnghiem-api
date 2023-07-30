@@ -74,7 +74,7 @@ public class UserService extends CRUDBaseServiceImpl<UserInfo, UserRequest, User
     public LoginResponse login(LoginRequest loginRequest) {
         Account account = accountRepository.findAccountByUsername(loginRequest.getUsername());
         if (account == null || account.getId() == null) {
-            return LoginResponse.builder().message("Invalid account . Please try again.").status(false).build();
+            return LoginResponse.builder().message("Không tìm thấy tài khoản. Vui lòng thử lại.").status(false).build();
         }
         if (account.isDeleteFlag() == true) {
             return LoginResponse.builder().message("Your account has been temporarily locked, please contact us again").status(false).build();
@@ -82,7 +82,7 @@ public class UserService extends CRUDBaseServiceImpl<UserInfo, UserRequest, User
         if (passwordEncoder.matches(loginRequest.getPassword() + Constants.SALT_DEFAULT, account.getPassword())) {
             return buildTokenResponse(userRepository.findUserByAccount(account));
         } else {
-            return LoginResponse.builder().message("Invalid email or password. Please try again.").status(false).build();
+            return LoginResponse.builder().message("Sai mật khẩu. Vui lòng thử lại").status(false).build();
         }
 
     }

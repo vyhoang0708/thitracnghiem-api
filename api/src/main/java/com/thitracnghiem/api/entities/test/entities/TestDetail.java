@@ -2,6 +2,7 @@ package com.thitracnghiem.api.entities.test.entities;
 
 import com.thitracnghiem.api.entities.exam.entities.Exam;
 import com.thitracnghiem.api.entities.question.entities.Answer;
+import com.thitracnghiem.api.entities.question.entities.Question;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +20,8 @@ public class TestDetail {
     private Long idCTBT;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idDT")
-    private Exam exam;
+    @JoinColumn(name = "idCH")
+    private Question question;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idBT")

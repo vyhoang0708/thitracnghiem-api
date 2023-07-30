@@ -11,4 +11,5 @@ import java.util.Optional;
 
 public interface TestRepository extends CrudRepository<Test, Long>, JpaSpecificationExecutor<Test> {
     Optional<Test> findByExam_idDT(Long id);
+    Iterable<Test> findByUserInfo_id(Long id);
 }
