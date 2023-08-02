@@ -9,7 +9,8 @@ import lombok.Data;
 @Data
 public class TestResponse {
     private boolean status;
-    private String message;
+    private int cauDung;
+    private float diem;
     private Test test;
     Iterable<TestDetail> testDetails;
 }

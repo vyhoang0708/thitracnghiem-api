@@ -8,6 +8,7 @@ import com.thitracnghiem.api.security.jwt.CustomAuthUser;
 import com.thitracnghiem.api.security.jwt.JWTAuthenticationToken;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -20,11 +21,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    AuditorAware auditorAware;
 
     @GetMapping("/profile")
-    public Mono<UserResponse> getUserCurrent(Principal principal) {
-        JWTAuthenticationToken jwtTokenObject = (JWTAuthenticationToken) principal;
-            return Mono.just(userService.getUserProfile(Long.parseLong(((CustomAuthUser) jwtTokenObject.getPrincipal()).getUserId())));
+    public Mono<UserResponse> getUserCurrent() {
+            return Mono.just(userService.getUserProfile(Long.parseLong(auditorAware.getCurrentAuditor().get().toString())));
     }
 
     @DeleteMapping("")

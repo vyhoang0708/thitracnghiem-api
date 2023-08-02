@@ -1,7 +1,10 @@
 package com.thitracnghiem.api.modules.test;
 
 import com.thitracnghiem.api.base.CRUDBaseServiceImpl;
+import com.thitracnghiem.api.config.PersistenceConfig;
 import com.thitracnghiem.api.entities.exam.entities.Exam;
+import com.thitracnghiem.api.entities.exam.entities.ExamDetail;
+import com.thitracnghiem.api.entities.exam.repos.ExamDetailRepository;
 import com.thitracnghiem.api.entities.exam.repos.ExamRepository;
 import com.thitracnghiem.api.entities.question.entities.Answer;
 import com.thitracnghiem.api.entities.question.entities.Question;
@@ -21,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -28,7 +32,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -44,6 +50,8 @@ public class TestService extends CRUDBaseServiceImpl<Test, TestRequest, Test, Lo
     @Value("${jwkFile}")
     private Resource jwkFile;
     @Autowired
+    AuditorAware auditorAware;
+    @Autowired
     UserRepository userRepository;
     @Autowired
     ExamRepository examRepository;
@@ -53,21 +61,39 @@ public class TestService extends CRUDBaseServiceImpl<Test, TestRequest, Test, Lo
     AnswerRepository answerRepository;
     @Autowired
     TestDetailRepository testDetailRepository;
+    @Autowired
+    ExamDetailRepository examDetailRepository;
      public Iterable<Test> getTestByUser(Long id){
          return testRepository.findByUserInfo_id(id);
      }
     @Transactional
-     public TestResponse createTest(TestRequest testRequest) throws IOException {
+     public TestResponse createTest(TestRequest testRequest, Long id) throws IOException {
          boolean result = false;
+         UserInfo userInfo = userRepository.findById(id).get();
          Exam exam = examRepository.findById(testRequest.getExam()).get();
+         Iterable<ExamDetail> examDetails = examDetailRepository.findAllByExam_IdDT(testRequest.getExam());
+        List<ExamDetail> examDetailsList = new ArrayList<>();
+        for (ExamDetail examDetail : examDetails) {
+            examDetailsList.add(examDetail);
+        }
+         int socau = examDetailsList.size();
+        int tmp = 0;
+        for (TestDetailRequest testDetailRequest : testRequest.getTestDetailRequests()){
+            Answer answer = answerRepository.findById(testDetailRequest.getAnswer()).get();
+            if (answer.isTrue()){
+                tmp ++;
+            }
+        }
+        float diem = tmp*10/socau;
          Date date = new Date(Instant.now().plusSeconds(expireIn).toEpochMilli());
          Test test = Test.builder()
                  .exam(exam)
-                 .userInfo(userRepository.findById(2L).get())
-                 .diem(20)
+                 .userInfo(userInfo)
+                 .diem(diem)
                  .ngayThi(date)
                  .build();
          testRepository.save(test);
+
          try {
              for (TestDetailRequest testDetailRequest : testRequest.getTestDetailRequests()){
                  System.out.println(testDetailRequest.getQuestion());
@@ -85,6 +111,6 @@ public class TestService extends CRUDBaseServiceImpl<Test, TestRequest, Test, Lo
              TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
          }
 
-         return TestResponse.builder().message("Create Successful").status(result).test(test).build();
+         return TestResponse.builder().cauDung(tmp).diem(diem).status(result).test(test).build();
      }
 }
