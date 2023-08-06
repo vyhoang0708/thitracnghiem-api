@@ -1,10 +1,16 @@
 package com.thitracnghiem.api.entities.premission.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
 
+import javax.persistence.*;
+
+@EqualsAndHashCode(callSuper = false)
+@Builder
+@Data
+@Table(name = "permission")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

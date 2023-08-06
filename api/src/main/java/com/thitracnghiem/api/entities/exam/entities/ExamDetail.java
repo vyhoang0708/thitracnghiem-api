@@ -8,7 +8,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 @Data
-@Table(name = "examDetail")
+@Table(name = "examDetail", uniqueConstraints = @UniqueConstraint(columnNames = {"idDT", "idCH"}))
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

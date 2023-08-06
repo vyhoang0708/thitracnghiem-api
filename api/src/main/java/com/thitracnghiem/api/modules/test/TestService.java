@@ -1,13 +1,11 @@
 package com.thitracnghiem.api.modules.test;
 
 import com.thitracnghiem.api.base.CRUDBaseServiceImpl;
-import com.thitracnghiem.api.config.PersistenceConfig;
 import com.thitracnghiem.api.entities.exam.entities.Exam;
 import com.thitracnghiem.api.entities.exam.entities.ExamDetail;
 import com.thitracnghiem.api.entities.exam.repos.ExamDetailRepository;
 import com.thitracnghiem.api.entities.exam.repos.ExamRepository;
 import com.thitracnghiem.api.entities.question.entities.Answer;
-import com.thitracnghiem.api.entities.question.entities.Question;
 import com.thitracnghiem.api.entities.question.repos.AnswerRepository;
 import com.thitracnghiem.api.entities.question.repos.QuestionRepository;
 import com.thitracnghiem.api.entities.test.entities.Test;
@@ -18,7 +16,6 @@ import com.thitracnghiem.api.entities.user.entities.UserInfo;
 import com.thitracnghiem.api.entities.user.repos.UserRepository;
 import com.thitracnghiem.api.payload.request.test.TestDetailRequest;
 import com.thitracnghiem.api.payload.request.test.TestRequest;
-import com.thitracnghiem.api.payload.response.exam.ExamResponse;
 import com.thitracnghiem.api.payload.response.test.TestResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Transactional

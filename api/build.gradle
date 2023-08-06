@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation 'org.springframework.session:spring-session-hazelcast'
+    implementation 'mysql:mysql-connector-java:8.0.28'
     implementation 'com.hazelcast:hazelcast:3.12.7'
 
     compileOnly 'org.projectlombok:lombok'

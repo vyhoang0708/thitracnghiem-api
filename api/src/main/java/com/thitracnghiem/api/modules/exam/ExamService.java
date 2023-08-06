@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Slf4j
@@ -50,7 +51,7 @@ public class ExamService extends CRUDBaseServiceImpl<Exam, ExamRequest, Exam, Lo
         return ExamResponse.builder().message("Create Exam Successful").status(true).exam(exam).build();
     }
     public Iterable<Map<String,Object>> getAllExam() {
-        return examRepository.findAllAndSum();
+        return examRepository.findAllAndCount();
     }
 
     public Optional<Exam> getExamByID(Long id) {
@@ -69,7 +70,7 @@ public class ExamService extends CRUDBaseServiceImpl<Exam, ExamRequest, Exam, Lo
     public ExamResponse deleteExam(Long id){
         Optional<Exam> exam = examRepository.findById(id);
         if (exam.isPresent()){
-            if(testRepository.findByExam_idDT(exam.get().getIdDT()).isPresent()){
+            if(testRepository.findByExam_idDT(exam.get().getIdDT()).size() != 0){
                 return ExamResponse.builder().status(false).message("Đã có User làm bài thi, không thể xóa").exam(null).build();
             }
             try {
@@ -83,6 +84,6 @@ public class ExamService extends CRUDBaseServiceImpl<Exam, ExamRequest, Exam, Lo
             examRepository.delete(exam.get());
         }else
             return ExamResponse.builder().status(false).message("Đề thi không tồn tại").exam(null).build();
-        return null;
+        return ExamResponse.builder().status(true).message("Xóa thành công").exam(null).build();
     }
 }

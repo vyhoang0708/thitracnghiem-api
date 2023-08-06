@@ -12,5 +12,5 @@ public interface ExamRepository extends CrudRepository<Exam, Long>, JpaSpecifica
             "select u.iddt, tenDT as ten,count(ex.idCTDT) as soluong, thoi_Gian, ngay_tao from Exam u" +
             " left join exam_Detail ex on u.idDT=ex.idDT" +
                     " group by u.iddt,tenDT, thoi_Gian, ngay_tao",nativeQuery = true)
-    Iterable<Map<String,Object>>findAllAndSum();
+    Iterable<Map<String,Object>>findAllAndCount();
 }

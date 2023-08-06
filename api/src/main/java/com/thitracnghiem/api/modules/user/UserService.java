@@ -132,6 +132,7 @@ public class UserService extends CRUDBaseServiceImpl<UserInfo, UserRequest, User
         account = Account.builder().username(userRequest.getUserName()).deleteFlag(false).role(role).email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword() + Constants.SALT_DEFAULT)).build();
         UserInfo userInfo = UserInfo.builder()
+                .hoTen(userRequest.getHoTen())
                 .sdt(Utils.normalPhone(userRequest.getSdt()))
                 .account(account)
                 .build();
