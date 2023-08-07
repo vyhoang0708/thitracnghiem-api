@@ -1,5 +1,6 @@
 package com.thitracnghiem.api.modules.question;
 
+import com.thitracnghiem.api.entities.question.entities.Answer;
 import com.thitracnghiem.api.entities.question.entities.Question;
 import com.thitracnghiem.api.payload.request.question.QuestionRequestCreate;
 import com.thitracnghiem.api.payload.request.question.QuestionRequestUpdate;
@@ -32,6 +33,10 @@ public class QuestionController {
     @GetMapping("/{id}")
     public Mono<Optional<Question>> getById(@PathVariable ("id") Long id){
         return Mono.just(questionService.getQuestionByID(id));
+    }
+    @GetMapping("/getAnswer/{id}")
+    public Mono<Iterable<Answer>> getAnswerByQuestion(@PathVariable ("id") Long id){
+        return Mono.just(questionService.getAnswerByQuestion(id));
     }
     @PostMapping("/create")
     public Mono<QuestionResponse> createQuestion(@RequestBody QuestionRequestCreate questionRequest)throws IOException{

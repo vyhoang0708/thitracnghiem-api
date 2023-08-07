@@ -81,11 +81,11 @@ public class QuestionService extends CRUDBaseServiceImpl<Question, QuestionReque
     public Iterable<Question> getQuestionByCategory(long id){
         return questionRepository.findAllSortCategory(id);
     }
+    public Iterable<Answer> getAnswerByQuestion(long id) {return answerRepository.findAllSortQuestion(id);}
     @Transactional
     public QuestionResponse updateQuestion(Long idQuestion, QuestionRequestUpdate questionRequest) throws IOException{
         String message = "";
         Optional<Question> question = questionRepository.findById(idQuestion);
-        Iterable<Answer> answers = answerRepository.findAllSortQuestion(idQuestion);
         if(!question.isPresent())
             return QuestionResponse.builder().status(false).message("Cannot find Question").build();
         if(questionRequest.getNoiDung() != null)

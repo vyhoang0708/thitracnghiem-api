@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -15,7 +16,8 @@ import java.util.Map;
 public class ReportService {
     @Autowired
     TestRepository testRepository;
-    public Iterable<Test> getTestByExam(Long id){
+    public List<Test> getTestByExam(Long id){
+        System.out.println("oke");
         return testRepository.findByExam_idDT(id);
     }
     public Iterable<Map<String,Object>> getLuotThi() {return testRepository.findAllAndCount();}

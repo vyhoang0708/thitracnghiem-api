@@ -21,8 +21,9 @@ import java.util.Optional;
 public class ReportController {
     @Autowired
     ReportService reportService;
-    @GetMapping("/score")
+    @GetMapping("/score/{id}")
     public Mono<Iterable<Test>> getTestByExam(@PathVariable("id") Long id){
+        System.out.println("111");
         return Mono.just(reportService.getTestByExam(id));
     }
     @GetMapping("/exams")

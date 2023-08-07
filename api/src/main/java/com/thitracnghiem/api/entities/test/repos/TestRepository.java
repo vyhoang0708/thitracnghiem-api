@@ -15,8 +15,8 @@ public interface TestRepository extends CrudRepository<Test, Long>, JpaSpecifica
     Iterable<Test> findByUserInfo_id(Long id);
     List<Test> findByExam_idDT(Long id);
     @Query( value =
-            "select  ex.tenDT as ten,count(u.idUser) as luotThi from Exam ex " +
+            "select  ex.tenDT as ten,count(u.id_User) as luotThi, ex.ngay_tao from Exam ex " +
                     " left join Test u on u.idDT=ex.idDT" +
-                    " group by tenDT",nativeQuery = true)
+                    " group by tenDT, ngay_tao",nativeQuery = true)
     Iterable<Map<String,Object>>findAllAndCount();
 }
