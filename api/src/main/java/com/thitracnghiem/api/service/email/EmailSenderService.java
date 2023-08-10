@@ -29,7 +29,7 @@ public class EmailSenderService {
     private SpringTemplateEngine springTemplateEngine;
 
     public void sendEmail(Account account, String verifyCode)  {
-        String from = "anhle180101@gmail.com";
+        String from = "vyhoang07082001@gmail.com";
         String to = account.getEmail();
 
         MimeMessage message = mailSender.createMimeMessage();
@@ -46,7 +46,7 @@ public class EmailSenderService {
             Mustache mustache = mf.compile(reader, "forgot-password");
             StringWriter htmlContent = new StringWriter();
 
-            String link = "http://localhost:3000/change-pass/verify-code="+verifyCode;
+            String link = "http://127.0.0.1:5500/Login/Changepass.html?verify-code="+verifyCode;
             mustache.execute(htmlContent, Map.of("link", link,"name",account.getUsername())).flush();
 
             helper.setText(htmlContent.toString(), true);
