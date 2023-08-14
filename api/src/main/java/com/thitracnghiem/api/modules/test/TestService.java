@@ -80,7 +80,7 @@ public class TestService extends CRUDBaseServiceImpl<Test, TestRequest, Test, Lo
                 tmp ++;
             }
         }
-        float diem = tmp*10/socau;
+        double diem =Math.round((tmp*10)/(socau*1.0)* 10.0) / 10.0;;
          Date date = new Date(Instant.now().plusSeconds(expireIn).toEpochMilli());
          Test test = Test.builder()
                  .exam(exam)

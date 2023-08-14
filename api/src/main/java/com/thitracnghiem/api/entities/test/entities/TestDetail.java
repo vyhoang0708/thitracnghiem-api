@@ -1,5 +1,7 @@
 package com.thitracnghiem.api.entities.test.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.thitracnghiem.api.entities.exam.entities.Exam;
 import com.thitracnghiem.api.entities.question.entities.Answer;
 import com.thitracnghiem.api.entities.question.entities.Question;
@@ -20,10 +22,13 @@ public class TestDetail {
     private Long idCTBT;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "idCH")
     private Question question;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "idBT")
     private Test test;
 

@@ -7,10 +7,8 @@ import lombok.Data;
 
 @Builder
 @Data
-public class TestResponse {
+public class TestDetailResponse {
     private boolean status;
-    private int cauDung;
-    private Double diem;
     private Test test;
     Iterable<TestDetail> testDetails;
 }

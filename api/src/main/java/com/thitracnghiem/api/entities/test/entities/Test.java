@@ -32,5 +32,5 @@ public class Test {
     private Date ngayThi;
 
 
-    private float diem;
+    private Double diem;
 }

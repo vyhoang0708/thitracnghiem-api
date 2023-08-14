@@ -82,9 +82,9 @@ public class JWTSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers("/api/auth/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**", "/api/upload/**").permitAll()
-                .pathMatchers(HttpMethod.GET,"/api/category/**","/api/exam/**","/api/examDetail/**","/api/question/**").permitAll()
+                .pathMatchers(HttpMethod.GET,"/api/category/**","/api/exam/**","/api/examDetail/**","/api/question/**","/api/test/**").permitAll()
                 .pathMatchers("/api/admin/**","/api/report/**","/api/category/**","/api/question/**","/api/exam/**","/api/user/all").hasAnyAuthority("Admin","Qly")
-                .pathMatchers("/api/cart/**","/api/order/**").permitAll()
+                .pathMatchers("/api/exam/**","/api/test/**").permitAll()
                 .anyExchange().authenticated()
                 .and().build();
     }

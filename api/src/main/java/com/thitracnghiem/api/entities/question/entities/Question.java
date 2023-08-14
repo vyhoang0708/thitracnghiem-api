@@ -1,5 +1,6 @@
 package com.thitracnghiem.api.entities.question.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -28,6 +29,7 @@ public class Question {
     private Category category;
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "cauHoi")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
     private List<Answer> answers;
 }
